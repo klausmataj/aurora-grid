@@ -3,10 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Aurora API")
 
-@APP.get("/health")
+@app.get("/health")
 def health():
     return {"ok": True}
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,7 +14,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}
