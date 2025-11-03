@@ -3,6 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Aurora API")
 
+@APP.get("/health")
+def health():
+    return {"ok": True}
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
