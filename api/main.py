@@ -34,3 +34,28 @@ def analyze_day():
         "explanation": "This is a basic forecast. Aurora will get smarter as you feed it real data."
     }
 
+from pydantic import BaseModel
+
+class BuildingData(BaseModel):
+    hourly_usage: list   # list of 24 numbers
+    max_capacity_kw: float
+
+@app.post("/analyze_building")
+def analyze_building(data: BuildingData):
+    usage = data.hourly_usage
+
+    peak_value = max(usage)
+    peak_hour = usage.index(peak_value)
+
+    recommendation = (
+        f"Peak usage is at hour {peak_hour} with {peak_value} kW. "
+        "Try to shift flexible loads away from this hour to reduce demand charges."
+    )
+
+    return {
+        "peak_hour": peak_hour,
+        "peak_value_kw": peak_value,
+        "recommendation": recommendation,
+        "explanation": "Aurora analyzed the building’s daily usage pattern."
+    }
+
